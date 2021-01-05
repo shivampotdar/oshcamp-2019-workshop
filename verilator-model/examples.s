@@ -28,8 +28,13 @@ _start:
         .insn i 0x0b, 2, a4, a5, 0 # leet  a4, a5
         .insn i 0x0b, 3, a5, a1, 0 # rot13 a5, a1
 
-        li a1, 0x74657374       # al = "TEST"
+        li a1, 0x74657374       # al = "test"
         .insn i 0x0b, 0, a0, a1, 0 # upper a0, a1
+
+        li a5, 0x74657374       # test
+        li a6, 0x6c656574       # leet
+        .insn i 0x0b, 2, a4, a5, 0 # leet a4, a5
+        .insn i 0x0b, 2, a5, a6, 0 # leet a5, a6
 
 exit:
         # Similar to exit(0) in C.
