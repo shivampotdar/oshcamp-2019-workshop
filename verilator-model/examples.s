@@ -35,6 +35,7 @@ _start:
         li a6, 0x6c656574       # leet
         .insn i 0x0b, 2, a4, a5, 0 # leet a4, a5
         .insn i 0x0b, 2, a5, a6, 0 # leet a5, a6
+        .insn i 0x0b, 3, a7, a6, 0 # rot13 a7, a6
 
 exit:
         # Similar to exit(0) in C.

@@ -18,16 +18,12 @@ always_comb begin
     if(enable_i) begin
         result_o = 32'hDEADBEEF;
 
-        if(operator_i == STR_OP_UPPER)
+        if(operator_i == STR_OP_UPPER || operator_i == STR_OP_LOWER || operator_i == STR_OP_ROT13)
             result_o = result;
         if(operator_i == STR_OP_LEET && leet_CS == FINISH)
             result_o = leet_intermediate;
     end
     // result_o = enable_i ? operand_i : 32'b0;
-end
-
-always_ff @(posedge clk)
-begin
     if (enable_i) begin
         logic [7:0] operand_i_byte[4];
         foreach(operand_i_byte[i]) begin
@@ -35,27 +31,50 @@ begin
             case(operator_i)
                 STR_OP_UPPER: begin
                     if(operand_i_byte[i] >= 97 && operand_i_byte[i] <= 122)
-                        result[8*i +: 8] <= operand_i_byte[i] - 32;
+                        result[8*i +: 8] = operand_i_byte[i] - 32;
                     else
-                        result[8*i +: 8] <= operand_i_byte[i];
+                        result[8*i +: 8] = operand_i_byte[i];
                 end
                 
                 STR_OP_LOWER: begin
                     if(operand_i_byte[i] >= 65 && operand_i_byte[i] <= 92)
-                        result[8*i +: 8] <= operand_i_byte[i] + 32;
+                        result[8*i +: 8] = operand_i_byte[i] + 32;
                     else
-                        result[8*i +: 8] <= operand_i_byte[i];
-                    //$display("%t: Exec Lower instruction", $time);
+                        result[8*i +: 8] = operand_i_byte[i];
                 end
+
+                STR_OP_ROT13: begin
+                    //$display("here");
+                    if(operand_i_byte[i] >= 65 && operand_i_byte[i] <= 90) begin
+                        if (operand_i_byte[i] > 77)
+                            result[8*i +: 8] = operand_i_byte[i] - 13;
+                        else 
+                            result[8*i +: 8] = operand_i_byte[i] + 13;
+                    end
+                    
+                    if(operand_i_byte[i] >= 97 && operand_i_byte[i] <= 122) begin
+                        if (operand_i_byte[i] > 109)
+                            result[8*i +: 8] = operand_i_byte[i] - 13;
+                        else 
+                            result[8*i +: 8] = operand_i_byte[i] + 13;
+                    end
+                end
+            endcase
+        end
+    end
+end
+
+always_ff @(posedge clk)
+begin
 
                 // STR_OP_LEET:
                 //     //$display("%t: Exec Leet speak instruction", $time);
                 //     result_o
                 // STR_OP_ROT13:
                 //     $display("%t: Exec Rot13 instruction", $time);
-            endcase
-        end
-    end
+    //         endcase
+    //     end
+    // end
 
     case(leet_CS)
         IDLE: begin
