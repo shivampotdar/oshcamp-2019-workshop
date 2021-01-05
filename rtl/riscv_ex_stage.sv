@@ -63,6 +63,12 @@ module riscv_ex_stage
   input  logic [ 1:0] imm_vec_ext_i,
   input  logic [ 1:0] alu_vec_mode_i,
 
+  // String ops - SP
+  input  logic        str_op_en_i,
+  input  logic [STR_OP_WIDTH-1:0] str_operator_i,
+  input  logic [31:0] str_operand_i,
+  // output logic [31:0] str_op_result,
+
   // Multiplier signals
   input  logic [ 2:0] mult_operator_i,
   input  logic [31:0] mult_operand_a_i,
@@ -161,6 +167,7 @@ module riscv_ex_stage
   logic [31:0]    alu_result;
   logic [31:0]    mult_result;
   logic           alu_cmp_result;
+  logic [31:0]    str_op_result;
 
   logic           regfile_we_lsu;
   logic [5:0]     regfile_waddr_lsu;
@@ -211,6 +218,8 @@ module riscv_ex_stage
         regfile_alu_wdata_fw_o = mult_result;
       if (csr_access_i)
         regfile_alu_wdata_fw_o = csr_rdata_i;
+      if(str_op_en_i)
+        regfile_alu_wdata_fw_o = str_op_result;
     end
   end
 
@@ -277,6 +286,25 @@ module riscv_ex_stage
     .ex_ready_i          ( ex_ready_o      )
   );
 
+  /////////////////////////////////////////////////////////
+  //    _____ _        _              ____               //
+  //   / ____| |      (_)            / __ \              //
+  //  | (___ | |_ _ __ _ _ __   __ _| |  | |_ __  ___    //
+  //   \___ \| __| '__| | '_ \ / _` | |  | | '_ \/ __|   //
+  //   ____) | |_| |  | | | | | (_| | |__| | |_) \__ \   //
+  //  |_____/ \__|_|  |_|_| |_|\__, |\____/| .__/|___/   //
+  //                            __/ |      | |           //
+  //                           |___/       |_|           //
+  /////////////////////////////////////////////////////////
+
+  riscv_str_ops riscv_str_ops_i
+  (
+    .clk                 (  clk             ),
+    .enable_i            (  str_op_en_i     ),
+    .operator_i          (  str_operator_i  ),
+    .operand_i           (  str_operand_i   ),
+    .result_o            (  str_op_result   )
+  );
 
   ////////////////////////////////////////////////////////////////
   //  __  __ _   _ _   _____ ___ ____  _     ___ _____ ____     //

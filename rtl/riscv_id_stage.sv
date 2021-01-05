@@ -123,6 +123,10 @@ module riscv_id_stage
     output logic        alu_en_ex_o,
     output logic [ALU_OP_WIDTH-1:0] alu_operator_ex_o,
 
+    // String ops
+    output logic [STR_OP_WIDTH-1:0] str_operator_ex_o,
+    output logic                    str_op_en_ex_o,
+    output logic [31:0]             str_operand_ex_o,
 
     // MUL
     output logic [ 2:0] mult_operator_ex_o,
@@ -333,6 +337,9 @@ module riscv_id_stage
   logic [0:0]  imm_a_mux_sel;
   logic [3:0]  imm_b_mux_sel;
   logic [1:0]  jump_target_mux_sel;
+
+  logic [STR_OP_WIDTH-1:0] str_operator;
+  logic        str_op_en_o;
 
   // Multiplier Control
   logic [2:0]  mult_operator;    // multiplication operation selection
@@ -1040,6 +1047,10 @@ module riscv_id_stage
     .imm_b_mux_sel_o                 ( imm_b_mux_sel             ),
     .regc_mux_o                      ( regc_mux                  ),
 
+    // String ops
+    .str_operator_o                  ( str_operator              ),
+    .str_op_en_o                     ( str_op_en_o               ),
+
     // MUL signals
     .mult_operator_o                 ( mult_operator             ),
     .mult_int_en_o                   ( mult_int_en               ),
@@ -1340,7 +1351,7 @@ module riscv_id_stage
       bmask_b_ex_o                <= '0;
       imm_vec_ext_ex_o            <= '0;
       alu_vec_mode_ex_o           <= '0;
-
+      str_operand_ex_o            <= '0;   // default str_operand_ex_o to 0
       mult_operator_ex_o          <= '0;
       mult_operand_a_ex_o         <= '0;
       mult_operand_b_ex_o         <= '0;
@@ -1436,6 +1447,13 @@ module riscv_id_stage
           end
         end
 
+        // String OP
+        str_op_en_ex_o            <= str_op_en_o;
+        if (str_op_en_o) begin
+          str_operator_ex_o         <= str_operator;
+          str_operand_ex_o          <= alu_operand_a;
+        end 
+
         mult_en_ex_o                <= mult_en;
         if (mult_int_en) begin
           mult_operator_ex_o        <= mult_operator;
@@ -1521,6 +1539,12 @@ module riscv_id_stage
         apu_en_ex_o                 <= 1'b0;
 
         alu_operator_ex_o           <= ALU_SLTU;
+
+        str_operator_ex_o           <= STR_OP_UPPER;
+
+        str_op_en_ex_o              <= 1'b0;
+
+        str_operand_ex_o            <= '0;
 
         mult_en_ex_o                <= 1'b0;
 

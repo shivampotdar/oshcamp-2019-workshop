@@ -53,6 +53,9 @@ parameter OPCODE_OP_FNMSUB = 7'h4b;
 parameter OPCODE_STORE_FP  = 7'h27;
 parameter OPCODE_LOAD_FP   = 7'h07;
 
+// SP 
+parameter OPCODE_STR_OPS   = 7'h0b;
+
 // those opcodes are now used for PULP custom instructions
 // parameter OPCODE_CUST0     = 7'h0b
 // parameter OPCODE_CUST1     = 7'h2b
@@ -184,6 +187,24 @@ parameter MUL_H     = 3'b110;
 parameter VEC_MODE32 = 2'b00;
 parameter VEC_MODE16 = 2'b10;
 parameter VEC_MODE8  = 2'b11;
+
+/////////////////////////////////////////////////////////
+//    _____ _        _              ____               //   
+//   / ____| |      (_)            / __ \              //
+//  | (___ | |_ _ __ _ _ __   __ _| |  | |_ __  ___    //
+//   \___ \| __| '__| | '_ \ / _` | |  | | '_ \/ __|   //
+//   ____) | |_| |  | | | | | (_| | |__| | |_) \__ \   //
+//  |_____/ \__|_|  |_|_| |_|\__, |\____/| .__/|___/   //
+//                            __/ |      | |           //
+//                           |___/       |_|           //    
+/////////////////////////////////////////////////////////
+
+parameter STR_OP_WIDTH = 2;
+
+parameter STR_OP_UPPER = 2'b00;
+parameter STR_OP_LOWER = 2'b01;
+parameter STR_OP_LEET  = 2'b10;
+parameter STR_OP_ROT13 = 2'b11;
 
 /////////////////////////////////////////////////////////
 //    ____ ____    ____            _     _             //

@@ -47,6 +47,7 @@ VSRC = cluster_clock_gating.sv            \
        ../rtl/include/riscv_tracer_defines.sv \
        ../rtl/register_file_test_wrap.sv      \
        ../rtl/riscv_alu.sv                    \
+       ../rtl/riscv_str_ops.sv                \
        ../rtl/riscv_alu_basic.sv              \
        ../rtl/riscv_alu_div.sv                \
        ../rtl/riscv_compressed_decoder.sv     \
@@ -67,7 +68,7 @@ VSRC = cluster_clock_gating.sv            \
        ../rtl/riscv_register_file.sv          \
        ../rtl/riscv_core.sv                   \
        ../rtl/riscv_apu_disp.sv               \
-       ../rtl/riscv_L0_buffer.sv
+       ../rtl/riscv_L0_buffer.sv              
 
 VINC = ../rtl/include
 

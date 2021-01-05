@@ -84,6 +84,10 @@ module riscv_decoder
   output logic [3:0]  imm_b_mux_sel_o,         // immediate selection for operand b
   output logic [1:0]  regc_mux_o,              // register c selection: S3, RD or 0
 
+  // String ops - SP
+  output logic [STR_OP_WIDTH-1:0] str_operator_o,
+  output logic                    str_op_en_o,
+
   // MUL related control signals
   output logic [2:0]  mult_operator_o,         // Multiplication operation selection
   output logic        mult_int_en_o,           // perform integer multiplication
@@ -179,6 +183,8 @@ module riscv_decoder
 
     alu_en_o                    = 1'b1;
     alu_operator_o              = ALU_SLTU;
+    str_op_en_o                 = 1'b0;
+    str_operator_o              = STR_OP_UPPER;
     alu_op_a_mux_sel_o          = OP_A_REGA_OR_FWD;
     alu_op_b_mux_sel_o          = OP_B_REGB_OR_FWD;
     alu_op_c_mux_sel_o          = OP_C_REGC_OR_FWD;
@@ -187,6 +193,7 @@ module riscv_decoder
     regc_mux_o                  = REGC_ZERO;
     imm_a_mux_sel_o             = IMMA_ZERO;
     imm_b_mux_sel_o             = IMMB_I;
+
 
     mult_operator_o             = MUL_I;
     mult_int_en                 = 1'b0;
@@ -1478,6 +1485,54 @@ module riscv_decoder
           end
         endcase
       end
+
+/////////////////////////////////////////////////////////
+//    _____ _        _              ____               //
+//   / ____| |      (_)            / __ \              //
+//  | (___ | |_ _ __ _ _ __   __ _| |  | |_ __  ___    //
+//   \___ \| __| '__| | '_ \ / _` | |  | | '_ \/ __|   //
+//   ____) | |_| |  | | | | | (_| | |__| | |_) \__ \   //
+//  |_____/ \__|_|  |_|_| |_|\__, |\____/| .__/|___/   //
+//                            __/ |      | |           //
+//                           |___/       |_|           //
+/////////////////////////////////////////////////////////
+      
+      OPCODE_STR_OPS: begin
+        unique case (instr_rdata_i[14:12])
+          3'b000 : begin
+            str_op_en_o     =   1'b1;
+            str_operator_o  =   STR_OP_UPPER;
+            rega_used_o     =   1'b1;
+            regfile_alu_we  =   1'b1;
+            // $display("Decoded upper instruction");
+          end
+          3'b001 : begin
+            // $display("Decoded lower instruction");
+            str_op_en_o     =   1'b1;
+            str_operator_o  =   STR_OP_LOWER;
+            rega_used_o     =   1'b1;
+            regfile_alu_we  =   1'b1;
+          end
+          3'b010 : begin
+            // $display("Decoded leet instruction");
+            str_op_en_o     =   1'b1;
+            str_operator_o  =   STR_OP_LEET;
+            rega_used_o     =   1'b1;
+            regfile_alu_we  =   1'b1;
+          end
+          3'b011 : begin
+            // $display("Decoded rot13 instruction");
+            str_op_en_o     =   1'b1;
+            str_operator_o  =   STR_OP_ROT13;
+            rega_used_o     =   1'b1;
+            regfile_alu_we  =   1'b1;
+          end
+          default : begin
+            illegal_insn_o  =   1'b1;
+          end
+        endcase
+      end
+
 
       default: begin
         illegal_insn_o = 1'b1;

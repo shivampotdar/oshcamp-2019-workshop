@@ -181,6 +181,11 @@ module riscv_core
   logic [ 1:0] imm_vec_ext_ex;
   logic [ 1:0] alu_vec_mode_ex;
 
+  // String ops - SP
+  logic [STR_OP_WIDTH-1:0] str_operator_o;
+  logic                    str_op_en_o;
+  logic [31:0]             str_operand_o;
+
   // Multiplier Control
   logic [ 2:0] mult_operator_ex;
   logic [31:0] mult_operand_a_ex;
@@ -611,6 +616,11 @@ module riscv_core
     .regfile_alu_we_ex_o          ( regfile_alu_we_ex    ),
     .regfile_alu_waddr_ex_o       ( regfile_alu_waddr_ex ),
 
+    // string ops
+    .str_op_en_ex_o               ( str_op_en_o          ),
+    .str_operator_ex_o            ( str_operator_o       ),
+    .str_operand_ex_o             ( str_operand_o        ),
+
     // MUL
     .mult_operator_ex_o           ( mult_operator_ex     ), // from ID to EX stage
     .mult_en_ex_o                 ( mult_en_ex           ), // from ID to EX stage
@@ -767,6 +777,11 @@ module riscv_core
     .bmask_b_i                  ( bmask_b_ex                   ), // from ID/EX pipe registers
     .imm_vec_ext_i              ( imm_vec_ext_ex               ), // from ID/EX pipe registers
     .alu_vec_mode_i             ( alu_vec_mode_ex              ), // from ID/EX pipe registers
+
+    // String ops
+    .str_op_en_i                ( str_op_en_o                  ),
+    .str_operator_i             ( str_operator_o               ),
+    .str_operand_i              ( str_operand_o                ),
 
     // Multipler
     .mult_operator_i            ( mult_operator_ex             ), // from ID/EX pipe registers

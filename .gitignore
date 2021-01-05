@@ -3,3 +3,6 @@
 /build
 /Bender.lock
 /Bender.local
+/binutils-build
+/binutils-2.33.1
+/binutils-install
