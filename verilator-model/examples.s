@@ -12,7 +12,8 @@ _start:
         # add t1, a3, a4
         # add t2, a4, a5
         # add t0, t1, t2
-        
+        li a0, 65535
+        csrrs zero, 0x7A0, a0
         li a0, 0
         li a1, 1
         li a2, 2
@@ -36,6 +37,21 @@ _start:
         .insn i 0x0b, 2, a4, a5, 0 # leet a4, a5
         .insn i 0x0b, 2, a5, a6, 0 # leet a5, a6
         .insn i 0x0b, 3, a7, a6, 0 # rot13 a7, a6
+
+        # add 1 to 10
+        li      a0, 0
+        li      a4, 0
+        li      a2, 10
+        li      a3, 0
+
+loop:   
+        add     a4, a3, a4
+        addi    a3, a3, 1
+        blt     a3, a2, loop
+        add     a0, a4, zero
+
+
+
 
 exit:
         # Similar to exit(0) in C.

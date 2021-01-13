@@ -33,7 +33,7 @@ using std::cerr;
 using std::endl;
 
 // Number of cycles to run for
-const uint32_t CYCLES_TO_RUN_FOR = 50;
+const uint32_t CYCLES_TO_RUN_FOR = 100;
 
 // Count of clock ticks
 

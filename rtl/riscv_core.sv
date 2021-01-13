@@ -36,7 +36,7 @@ import riscv_defines::*;
 
 module riscv_core
 #(
-  parameter N_EXT_PERF_COUNTERS =  0,
+  parameter N_EXT_PERF_COUNTERS = 16,
   parameter INSTR_RDATA_WIDTH   = 32,
   parameter PULP_SECURE         =  0,
   parameter PULP_CLUSTER        =  1,
@@ -125,11 +125,21 @@ module riscv_core
   output logic        core_busy_o,
 
   input  logic [N_EXT_PERF_COUNTERS-1:0] ext_perf_counters_i
+
+  // SP
+  // output logic [31:0] curr_pc_out,    // for pc, have to use pc_if/pc_id etc., there are different signals for actual instruction :)
+  // output logic        new_pc_out    
 );
 
   localparam N_HWLP      = 2;
   localparam N_HWLP_BITS = $clog2(N_HWLP);
   localparam APU         = ((SHARED_DSP_MULT==1) | (SHARED_INT_DIV==1) | (FPU==1)) ? 1 : 0;
+
+  // SP 
+  // assign curr_pc_out = instr_valid_id ? pc_if : 32'h0;
+  
+
+
 
   // IF/ID signals
   logic              is_hwlp_id;

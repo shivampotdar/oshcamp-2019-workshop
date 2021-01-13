@@ -1,32 +1,55 @@
 [*]
 [*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
-[*] Tue Jan  5 10:17:56 2021
+[*] Wed Jan 13 12:01:10 2021
 [*]
 [dumpfile] "/home/sumanth/shivam/pulp/markall_workshop/ri5cy/verilator-model/model.vcd"
-[dumpfile_mtime] "Tue Jan  5 10:06:23 2021"
-[dumpfile_size] 232565
+[dumpfile_mtime] "Wed Jan 13 10:57:05 2021"
+[dumpfile_size] 588804
 [savefile] "/home/sumanth/shivam/pulp/markall_workshop/ri5cy/verilator-model/sp.gtkw"
-[timestart] 481
-[size] 960 1016
+[timestart] 561
+[size] 1920 1016
 [pos] -1 -1
-*-5.394875 548 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-4.537534 640 560 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] TOP.
 [treeopen] TOP.top.
 [treeopen] TOP.top.riscv_core_i.
 [treeopen] TOP.top.riscv_core_i.ex_stage_i.
+[treeopen] TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.
 [treeopen] TOP.top.riscv_core_i.id_stage_i.
 [treeopen] TOP.top.riscv_core_i.id_stage_i.registers_i.
 [treeopen] TOP.top.riscv_core_i.if_stage_i.
 [sst_width] 240
-[signals_width] 214
+[signals_width] 319
 [sst_expanded] 1
 [sst_vpaned_height] 296
 @28
 TOP.top.riscv_core_i.clk_i
 TOP.top.riscv_core_i.rst_ni
 TOP.top.riscv_core_i.fetch_enable_i
-@22
+@23
 TOP.top.riscv_core_i.id_stage_i.instr_rdata_i[31:0]
+@200
+-
+-Signals for Monitor
+@28
+TOP.top.riscv_core_i.pc_set
+@22
+TOP.top.riscv_core_i.pc_if[31:0]
+@23
+TOP.top.riscv_core_i.pc_id[31:0]
+@22
+TOP.top.riscv_core_i.id_stage_i.pc_ex_o[31:0]
+@28
+TOP.top.riscv_core_i.instr_rvalid_i
+@22
+TOP.top.riscv_core_i.instr_rdata_i[127:0]
+TOP.top.riscv_core_i.instr_addr_o[31:0]
+@28
+TOP.top.riscv_core_i.instr_valid_id
+TOP.top.riscv_core_i.clear_instr_valid
+TOP.top.riscv_core_i.id_valid
+TOP.top.riscv_core_i.if_stage_i.if_valid
+TOP.top.riscv_core_i.id_stage_i.branch_taken_ex
 @200
 -
 -CONTROLLER
@@ -38,6 +61,7 @@ TOP.top.riscv_core_i.id_stage_i.controller_i.ctrl_fsm_cs[4:0]
 @28
 TOP.top.riscv_core_i.id_stage_i.controller_i.halt_id_o
 TOP.top.riscv_core_i.id_stage_i.controller_i.halt_if_o
+TOP.top.riscv_core_i.branch_decision
 @200
 -
 -FETCH_STAGE
@@ -66,15 +90,6 @@ TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.operator_i[1:0]
 @22
 TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.operand_i[31:0]
 TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.result_o[31:0]
-@28
-TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.leet_CS[2:0]
-TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.leet_NS[2:0]
-TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.leet_active
-@22
-TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.leet_intermediate[31:0]
-@28
-TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.ready_o
-@23
 TOP.top.riscv_core_i.ex_stage_i.riscv_str_ops_i.result_o[31:0]
 @200
 -
@@ -84,5 +99,6 @@ TOP.top.riscv_core_i.id_stage_i.registers_i.we_b_i
 @22
 TOP.top.riscv_core_i.id_stage_i.registers_i.riscv_register_file_i.waddr_b[5:0]
 TOP.top.riscv_core_i.id_stage_i.registers_i.riscv_register_file_i.wdata_b_i[31:0]
+TOP.top.riscv_core_i.cs_registers_i.mstatus_q[5:0]
 [pattern_trace] 1
 [pattern_trace] 0
