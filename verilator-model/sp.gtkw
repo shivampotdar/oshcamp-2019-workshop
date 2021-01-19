@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
-[*] Tue Jan 19 13:31:47 2021
+[*] Tue Jan 19 14:44:27 2021
 [*]
 [dumpfile] "/home/sumanth/shivam/pulp/markall_workshop/ri5cy/verilator-model/model.vcd"
-[dumpfile_mtime] "Tue Jan 19 13:31:22 2021"
-[dumpfile_size] 511990
+[dumpfile_mtime] "Tue Jan 19 14:34:40 2021"
+[dumpfile_size] 706785
 [savefile] "/home/sumanth/shivam/pulp/markall_workshop/ri5cy/verilator-model/sp.gtkw"
-[timestart] 251
+[timestart] 192
 [size] 1920 1016
 [pos] -1 -1
-*-6.969748 1563 560 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-7.969748 1485 560 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] TOP.
 [treeopen] TOP.top.
 [treeopen] TOP.top.ram_i.
@@ -37,6 +37,9 @@ TOP.top.riscv_core_i.instr_addr_o[31:0]
 @28
 [color] 5
 TOP.top.monitor_new_pc
+@29
+[color] 5
+TOP.top.debug_halt_i
 @c00022
 [color] 5
 TOP.top.monitor_pc_id[31:0]
