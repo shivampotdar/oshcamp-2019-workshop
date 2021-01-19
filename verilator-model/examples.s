@@ -37,6 +37,7 @@ _start:
         .insn i 0x0b, 2, a4, a5, 0 # leet a4, a5
         .insn i 0x0b, 2, a5, a6, 0 # leet a5, a6
         .insn i 0x0b, 3, a7, a6, 0 # rot13 a7, a6
+        #.insn i 0x0b, 5, a0, a0, 0 # illegal? yes lol
 
         # add 1 to 10
         li      a0, 0
@@ -50,13 +51,27 @@ loop:
         blt     a3, a2, loop
         add     a0, a4, zero
 
-
+        li      a0, 0
+        add     a1, a0, a4
+        div     a7, a1, a4
+        jal check
 
 
 exit:
         # Similar to exit(0) in C.
+        li t1, 0xDEADBABE
+        sw t1, 0(s1) #
+        addi zero, zero, 0
+        addi zero, zero, 0
+        addi zero, zero, 0
+        lw t1, 0(s1) # 
         li a0, 0
         li a1, 0
         li a2, 0
         li a7, 93
         ecall
+
+check:
+        add     zero, zero, zero
+        add     a2, a0, a4
+        ret 

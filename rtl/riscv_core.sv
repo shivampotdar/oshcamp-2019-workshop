@@ -124,21 +124,17 @@ module riscv_core
   input  logic        fetch_enable_i,
   output logic        core_busy_o,
 
-  input  logic [N_EXT_PERF_COUNTERS-1:0] ext_perf_counters_i
+  input  logic [N_EXT_PERF_COUNTERS-1:0] ext_perf_counters_i,
 
-  // SP
-  // output logic [31:0] curr_pc_out,    // for pc, have to use pc_if/pc_id etc., there are different signals for actual instruction :)
-  // output logic        new_pc_out    
+  //Shivam    
+  output logic [31:0] monitor_pc_id,
+  output logic        monitor_new_pc
+  //input  logic        monitor_halt_me
 );
 
   localparam N_HWLP      = 2;
   localparam N_HWLP_BITS = $clog2(N_HWLP);
   localparam APU         = ((SHARED_DSP_MULT==1) | (SHARED_INT_DIV==1) | (FPU==1)) ? 1 : 0;
-
-  // SP 
-  // assign curr_pc_out = instr_valid_id ? pc_if : 32'h0;
-  
-
 
 
   // IF/ID signals
@@ -353,6 +349,17 @@ module riscv_core
 
   //core busy signals
   logic        core_ctrl_firstfetch, core_busy_int, core_busy_q;
+
+  //Shivam
+  logic monitor_deassert_we_wire;
+  assign      monitor_pc_id   =   pc_id;
+  assign      monitor_new_pc = clk && (~monitor_deassert_we_wire) & ex_ready;
+  // always @(posedge clk ) begin
+  //   if(monitor_halt_me) begin
+  //     dbg_req <= 1'b1;
+  //     dbg_add
+  //   end
+  // end
 
   //Simchecker signal
   logic is_interrupt;
@@ -748,7 +755,10 @@ module riscv_core
     .perf_jump_o                  ( perf_jump            ),
     .perf_jr_stall_o              ( perf_jr_stall        ),
     .perf_ld_stall_o              ( perf_ld_stall        ),
-    .perf_pipeline_stall_o        ( perf_pipeline_stall  )
+    .perf_pipeline_stall_o        ( perf_pipeline_stall  ),
+
+    //Shivam
+    .monitor_deassert_we_o        ( monitor_deassert_we_wire  )
   );
 
 

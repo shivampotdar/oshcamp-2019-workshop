@@ -45,7 +45,11 @@ module top
 
  // CPU Control Signals
  input logic 			 fetch_enable_i,
- output logic 			 core_busy_o
+ output logic 			 core_busy_o,
+
+ //Shivam
+ output logic [31:0]  monitor_pc_id,
+ output logic         monitor_new_pc
  );
 
    // signals connecting core to memory
@@ -132,7 +136,11 @@ module top
       .fetch_enable_i         ( fetch_enable_i        ),
       .core_busy_o            ( core_busy_o           ),
 
-      .ext_perf_counters_i    (                       )
+      .ext_perf_counters_i    (                       ),
+
+      //Shivam
+      .monitor_pc_id          ( monitor_pc_id         ),
+      .monitor_new_pc         ( monitor_new_pc        )
       );
 
    // Instantiate the memory

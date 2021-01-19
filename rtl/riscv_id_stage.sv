@@ -246,7 +246,10 @@ module riscv_id_stage
     output logic        perf_jump_o,          // we are executing a jump instruction
     output logic        perf_jr_stall_o,      // jump-register-hazard
     output logic        perf_ld_stall_o,      // load-use-hazard
-    output logic        perf_pipeline_stall_o //extra cycles from elw
+    output logic        perf_pipeline_stall_o, //extra cycles from elw
+
+    //Shivam
+    output logic        monitor_deassert_we_o
 );
 
   logic [31:0] instr;
@@ -446,6 +449,8 @@ module riscv_id_stage
   logic        reg_d_alu_is_reg_b_id;
   logic        reg_d_alu_is_reg_c_id;
 
+  //Shivam
+  assign monitor_deassert_we_o = deassert_we;
 
   assign instr = instr_rdata_i;
 

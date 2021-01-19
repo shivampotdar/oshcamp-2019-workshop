@@ -33,7 +33,7 @@ using std::cerr;
 using std::endl;
 
 // Number of cycles to run for
-const uint32_t CYCLES_TO_RUN_FOR = 100;
+const uint32_t CYCLES_TO_RUN_FOR = 145;
 
 // Count of clock ticks
 
@@ -60,6 +60,19 @@ static uint64_t mCycleCnt = 0;
 Vtop *cpu;
 VerilatedVcdC * tfp;
 
+void debugWrite(uint32_t, uint32_t);
+uint32_t debugRead(uint32_t);
+void waitForDebugStall();
+
+bool flag_to_halt = false;
+
+void monitor_halt(void) {
+        cout << "Halting for monitor" << endl;
+        debugWrite(DBG_CTRL, debugRead(DBG_CTRL) | DBG_CTRL_HALT);
+        waitForDebugStall();
+        //debugWrite(DBG_NPC, 0x80); //jump back to start
+}
+
 // Clock the CPU for a given number of cycles, dumping to the trace file at
 // each clock edge.
 void clockSpin(uint32_t cycles)
@@ -75,6 +88,12 @@ void clockSpin(uint32_t cycles)
       cpuTime += 5;
       tfp->dump (cpuTime);
       mCycleCnt++;
+      if(cpu->monitor_new_pc == 1)
+        cout << "PC = "<< std::hex << cpu->monitor_pc_id << "\t\t = \t\t "<< std::hex << cpu->monitor_pc_id - 0x80 << "\n";
+      if(cpu->monitor_pc_id == 0x144 && flag_to_halt==false){ // 144 is ecall in current test prog
+          monitor_halt();
+          flag_to_halt = true;
+      }
   }
 }
 
@@ -289,6 +308,22 @@ main (int    argc,
   delete cpu;
 
 }
+
+// void halt_sim(void) {
+//   cout << "Halting" << endl;
+
+//   debugWrite(DBG_CTRL, debugRead(DBG_CTRL) | DBG_CTRL_HALT);
+//   waitForDebugStall();
+
+//   // Close VCD
+
+//   tfp->close ();
+
+//   // Tidy up
+
+//   delete tfp;
+//   delete cpu;
+// }
 
 //! Function to handle $time calls in the Verilog
 
