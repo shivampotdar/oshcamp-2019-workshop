@@ -6,7 +6,7 @@ Disassembly of section .text:
 
 00000000 <_start>:
    0:	00010537          	lui	a0,0x10
-   4:	fff50513          	addi	a0,a0,-1 # ffff <exit+0xff77>
+   4:	fff50513          	addi	a0,a0,-1 # ffff <check+0xff33>
    8:	7a052073          	csrs	tselect,a0
    c:	00000513          	li	a0,0
   10:	00100593          	li	a1,1
@@ -22,30 +22,46 @@ Disassembly of section .text:
   38:	0007a70b          	0x7a70b
   3c:	0005b78b          	0x5b78b
   40:	746575b7          	lui	a1,0x74657
-  44:	37458593          	addi	a1,a1,884 # 74657374 <exit+0x746572ec>
+  44:	37458593          	addi	a1,a1,884 # 74657374 <check+0x746572a8>
   48:	0005850b          	0x5850b
   4c:	746577b7          	lui	a5,0x74657
-  50:	37478793          	addi	a5,a5,884 # 74657374 <exit+0x746572ec>
+  50:	37478793          	addi	a5,a5,884 # 74657374 <check+0x746572a8>
   54:	6c656837          	lui	a6,0x6c656
-  58:	57480813          	addi	a6,a6,1396 # 6c656574 <exit+0x6c6564ec>
+  58:	57480813          	addi	a6,a6,1396 # 6c656574 <check+0x6c6564a8>
   5c:	0007a70b          	0x7a70b
   60:	0008278b          	0x8278b
   64:	0008388b          	0x8388b
-  68:	00000513          	li	a0,0
-  6c:	00000713          	li	a4,0
-  70:	00a00613          	li	a2,10
-  74:	00000693          	li	a3,0
+  68:	0005550b          	0x5550b
+  6c:	00000513          	li	a0,0
+  70:	00000713          	li	a4,0
+  74:	00a00613          	li	a2,10
+  78:	00000693          	li	a3,0
 
-00000078 <loop>:
-#     PC val
-  78:	  F8    00e68733           	add	a4,a3,a4                
-  7c:	  FC    00168693          	addi	a3,a3,1 
-  80:	 100    fec6cce3          	blt	a3,a2,78 <loop> 
-  84:	 104    00070533          	add	a0,a4,zero  
+0000007c <loop>:
+  7c:	00e68733          	add	a4,a3,a4
+  80:	00168693          	addi	a3,a3,1
+  84:	fec6cce3          	blt	a3,a2,7c <loop>
+  88:	00070533          	add	a0,a4,zero
+  8c:	00000513          	li	a0,0
+  90:	00e505b3          	add	a1,a0,a4
+  94:	02e5c8b3          	div	a7,a1,a4
+  98:	034000ef          	jal	ra,cc <check>
 
-00000088 <exit>:
-  88:	00000513          	li	a0,0
-  8c:	00000593          	li	a1,0
-  90:	00000613          	li	a2,0
-  94:	05d00893          	li	a7,93
-  98:	00000073          	ecall
+0000009c <exit>:
+  9c:	deadc337          	lui	t1,0xdeadc
+  a0:	abe30313          	addi	t1,t1,-1346 # deadbabe <check+0xdeadb9f2>
+  a4:	0064a023          	sw	t1,0(s1)
+  a8:	00000013          	nop
+  ac:	00000013          	nop
+  b0:	00000013          	nop
+  b4:	0004a303          	lw	t1,0(s1)
+  b8:	00000513          	li	a0,0
+  bc:	00000593          	li	a1,0
+  c0:	00000613          	li	a2,0
+  c4:	05d00893          	li	a7,93
+  c8:	00000073          	ecall
+
+000000cc <check>:
+  cc:	00000033          	add	zero,zero,zero
+  d0:	00e50633          	add	a2,a0,a4
+  d4:	00008067          	ret

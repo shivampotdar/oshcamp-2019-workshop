@@ -49,7 +49,8 @@ module top
 
  //Shivam
  output logic [31:0]  monitor_pc_id,
- output logic         monitor_new_pc
+ output logic         monitor_new_pc,
+ input  logic         debug_halt_i
  );
 
    // signals connecting core to memory
@@ -130,7 +131,8 @@ module top
       .debug_wdata_i          ( debug_wdata_i         ),
       .debug_rdata_o          ( debug_rdata_o         ),
       .debug_halted_o         ( debug_halted_o        ),
-      .debug_halt_i           ( 1'b0                  ),     // Not used in
+      //.debug_halt_i           ( 1'b0                  ),     // Not used in
+      .debug_halt_i           ( debug_halt_i          ),
       .debug_resume_i         ( 1'b0                  ),     // single core
 
       .fetch_enable_i         ( fetch_enable_i        ),
